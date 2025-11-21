@@ -4,3 +4,4 @@ yfinance
 cvxpy
 streamlit
 plotly
+scikit-learn
