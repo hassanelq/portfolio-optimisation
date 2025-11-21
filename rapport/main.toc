@@ -1,0 +1,61 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{Remerciements}{1}{chapter*.1}%
+\contentsline {chapter}{Liste des abréviations}{3}{chapter*.3}%
+\contentsline {chapter}{Résumé}{6}{chapter*.5}%
+\contentsline {chapter}{Introduction}{7}{chapter*.6}%
+\contentsline {chapter}{\numberline {1}Fondements Théoriques}{8}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Notations et Définitions}{8}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Rendement Espéré et Risque}{8}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Espérance de Rendement}{8}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Risque et Variance}{9}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Décomposition de la Variance}{9}{subsection.1.2.3}%
+\contentsline {section}{\numberline {1.3}Principe de Diversification}{9}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Ratio de Sharpe}{10}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Méthodes Heuristiques Simples}{11}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Equal-Weighted Portfolio (EWP)}{11}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Principe et Formulation}{11}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Propriétés Théoriques}{11}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Inverse-Volatility Portfolio (IVP)}{12}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Principe et Formulation}{12}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Justification Théorique}{12}{subsection.2.2.2}%
+\contentsline {chapter}{\numberline {3}Approche de Markowitz}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Global Minimum Variance Portfolio (GMVP)}{13}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Problème d'Optimisation}{13}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Solution Analytique (Sans Contraintes de Positivité)}{13}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Propriétés du GMVP}{14}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Avantages et Limitations}{14}{subsection.3.1.4}%
+\contentsline {section}{\numberline {3.2}Mean-Variance Optimization (MVO)}{15}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Formulation du Problème}{15}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Solution Analytique (Sans Contraintes de Positivité)}{15}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Frontière Efficiente}{16}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Sensibilité aux Erreurs d'Estimation}{16}{subsection.3.2.4}%
+\contentsline {subsubsection}{Shrinkage de la Matrice de Covariance}{16}{section*.14}%
+\contentsline {chapter}{\numberline {4}Portefeuille Tangent et Maximisation du Sharpe}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Problème d'Optimisation}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Formulation}{17}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Transformation en Problème Convexe}{17}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Solution Analytique}{18}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Relation avec le CAPM}{18}{subsection.4.1.4}%
+\contentsline {subsection}{\numberline {4.1.5}Propriétés et Limitations}{19}{subsection.4.1.5}%
+\contentsline {chapter}{\numberline {5}Méthodes Avancées de Diversification}{20}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Most Diversified Portfolio (MDP)}{20}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Motivation et Principe}{20}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Problème d'Optimisation}{20}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Transformation en Problème Convexe}{20}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Propriétés Théoriques}{21}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}Avantages et Limitations}{21}{subsection.5.1.5}%
+\contentsline {section}{\numberline {5.2}Risk Parity Portfolio}{22}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Principe de Parité du Risque}{22}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Condition de Risk Parity}{22}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Algorithme de Résolution}{22}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Propriétés et Extensions}{23}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Avantages et Limitations}{23}{subsection.5.2.5}%
+\contentsline {chapter}{\numberline {6}Implémentation et Résultats}{25}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Architecture de l'Application}{25}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Méthodologie d'Analyse}{25}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Frontière Efficiente}{26}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Allocations Optimales}{27}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Performance Historique}{27}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Analyse du Risque}{28}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Recommandations Pratiques}{30}{section.6.7}%
+\contentsline {chapter}{Conclusion et Perspectives}{31}{chapter*.37}%

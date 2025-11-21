@@ -78,7 +78,7 @@
     
     \vspace{1.5cm}
     
-    \includegraphics[width=0.3\textwidth]{logo.png} % Remplacer par votre logo
+    \includegraphics[width=0.6\textwidth]{images/LogoIbnZohr.png}
     
     \vspace{1.5cm}
     
@@ -90,9 +90,65 @@
     {\large \today\par}
 \end{titlepage}
 
+
+% Remerciements
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+
+Je souhaite exprimer ma profonde gratitude à l'ensemble de mes professeurs pour les efforts qu'ils ont déployés tout au long de ma formation. Leur engagement constant, la richesse de leur enseignement et leur rigueur intellectuelle ont constitué les piliers de mon parcours académique.
+
+Je tiens à remercier particulièrement le Professeur Brahim EL ASRI pour sa direction attentive, ses conseils précieux et sa disponibilité durant l'élaboration de ce mémoire. Son expertise dans le domaine de la finance quantitative et ses orientations judicieuses m'ont permis de mener à bien ce projet.
+
+Mes remerciements vont également à toutes les personnes qui, de près ou de loin, ont contribué au bon déroulement de ce travail. Bien que je ne puisse les citer individuellement, qu'elles trouvent ici l'expression de ma reconnaissance sincère.
+
+Enfin, je voudrais témoigner ma gratitude envers ma famille pour son soutien inconditionnel et ses encouragements constants tout au long de mon parcours universitaire.
+
+\clearpage
+
+% Liste des figures
+\listoffigures
+\clearpage
+
+% Liste des abréviations
+\chapter*{Liste des abréviations}
+\addcontentsline{toc}{chapter}{Liste des abréviations}
+
+\begin{description}
+    \item[Actif sans risque] Actif dont le rendement est certain (typiquement obligations d'État à court terme)
+    
+    \item[Alpha] Rendement excédentaire d'un portefeuille par rapport à son benchmark
+    
+    \item[Beta] Sensibilité du rendement d'un actif aux mouvements du marché
+    
+    \item[Covariance] Mesure de la co-variation entre deux variables aléatoires
+    
+    \item[CVaR (Conditional Value at Risk)] Perte moyenne dans les $\alpha$\% pires scénarios
+    
+    \item[Drawdown] Baisse du portefeuille depuis son plus haut historique
+    
+    \item[Frontière efficiente] Ensemble des portefeuilles optimaux (minimisant le risque pour chaque niveau de rendement)
+    
+    \item[HHI (Herfindahl-Hirschman Index)] Mesure de concentration : $\sum w_i^2$
+    
+    \item[Ratio de Sharpe] Ratio rendement excédentaire sur volatilité : $(r_p - r_f)/\sigma_p$
+    
+    \item[Shrinkage] Technique de régularisation pour réduire l'erreur d'estimation
+    
+    \item[Tracking Error] Écart-type des différences de rendement entre un portefeuille et son benchmark
+    
+    \item[Turnover] Taux de rotation du portefeuille (volume d'achats/ventes)
+    
+    \item[VaR (Value at Risk)] Perte maximale avec un niveau de confiance donné (ex: 95\%)
+    
+    \item[Volatilité] Écart-type des rendements, mesure du risque
+\end{description}
+
+\clearpage
+
 % Table des matières
 \tableofcontents
-\newpage
+\clearpage
+
 
 % Résumé
 \chapter*{Résumé}
@@ -107,9 +163,10 @@ Pour chaque méthode, nous présentons les fondements mathématiques, les probl�
 \newpage
 
 % Introduction
-\chapter{Introduction}
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
 
-\section{Contexte et Motivation}
+\section*{Contexte et Motivation}
 
 La gestion de portefeuille est un domaine central de la finance moderne, visant à construire des portefeuilles d'actifs qui optimisent le compromis entre rendement et risque. Depuis les travaux pionniers de Harry Markowitz en 1952 \cite{markowitz1952}, la théorie moderne du portefeuille (Modern Portfolio Theory - MPT) a révolutionné la manière dont les investisseurs construisent et gèrent leurs portefeuilles.
 
@@ -123,19 +180,19 @@ Le problème fondamental de l'optimisation de portefeuille consiste à détermin
     \item Les préférences de l'investisseur en matière de risque
 \end{itemize}
 
-\section{Objectifs du Projet}
+\section*{Objectifs du Projet}
 
 Ce projet vise à :
 
 \begin{enumerate}
-    \item Présenter rigoureusement les fondements mathématiques de sept méthodes d'optimisation de portefeuille
+    \item Présenter les fondements mathématiques de méthodes d'optimisation de portefeuille
     \item Démontrer les propriétés théoriques de chaque approche
     \item Développer une application interactive permettant de comparer ces méthodes
     \item Analyser empiriquement les performances de ces stratégies sur des données réelles
     \item Fournir des outils d'analyse du risque (VaR, CVaR, décomposition du risque)
 \end{enumerate}
 
-\section{Structure du Rapport}
+\section*{Structure du Rapport}
 
 Le rapport est organisé comme suit :
 
@@ -280,17 +337,6 @@ Le ratio de Sharpe d'un portefeuille mesure le rendement excédentaire par unit�
 où $r_f$ est le taux sans risque. Dans ce projet, nous considérons $r_f = 0$.
 \end{definition}
 
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{2cm}
-        \textit{[Insérer ici : Graphique illustrant le ratio de Sharpe avec plusieurs portefeuilles]}
-        \vspace{2cm}
-    }}
-    \caption{Illustration du ratio de Sharpe}
-    \label{fig:sharpe_illustration}
-\end{figure}
 
 \chapter{Méthodes Heuristiques Simples}
 
@@ -321,41 +367,35 @@ Pour un portefeuille EWP :
 \end{align}
 \end{proposition}
 
-\begin{theorem}[Optimalité asymptotique de EWP]
-Sous certaines conditions (actifs i.i.d., corrélations faibles), le portefeuille EWP approche l'efficience asymptotique lorsque $N \to \infty$.
-\end{theorem}
-
-\subsection{Avantages et Limitations}
-
-\textbf{Avantages :}
-\begin{itemize}
-    \item Simplicité extrême de calcul et d'implémentation
-    \item Aucun paramètre à estimer
-    \item Pas d'erreur d'estimation
-    \item Turnover minimal (rebalancement peu fréquent)
-    \item Surprenante efficacité empirique (DeMiguel et al., 2009 \cite{demiguel2009})
-\end{itemize}
-
-\textbf{Limitations :}
-\begin{itemize}
-    \item Ignore complètement les rendements espérés
-    \item Ignore les volatilités individuelles
-    \item Ignore les corrélations entre actifs
-    \item Peut sur-pondérer des actifs très risqués
-    \item Pas d'adaptation à la structure du marché
-\end{itemize}
+%\subsection{Avantages et Limitations}
+%
+%\textbf{Avantages :}
+%\begin{itemize}
+%    \item Simplicité extrême de calcul et d'implémentation
+%    \item Aucun paramètre à estimer
+%    \item Pas d'erreur d'estimation
+%    \item Turnover minimal (rebalancement peu fréquent)
+%    \item Surprenante efficacité empirique (DeMiguel et al., 2009 \cite{demiguel2009})
+%\end{itemize}
+%
+%\textbf{Limitations :}
+%\begin{itemize}
+%    \item Ignore complètement les rendements espérés
+%    \item Ignore les volatilités individuelles
+%    \item Ignore les corrélations entre actifs
+%    \item Peut sur-pondérer des actifs très risqués
+%    \item Pas d'adaptation à la structure du marché
+%\end{itemize}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{3cm}
-        \textit{[Insérer ici : Diagramme en barres montrant l'allocation EWP pour N=7 actifs]}
-        \vspace{3cm}
-    }}
-    \caption{Allocation Equal-Weighted pour 7 actifs}
+    \fbox{
+	\includegraphics[scale=0.2]{images/Equal_Weighted.png}
+    }
+    \caption{Allocation Equal-Weighted pour 6 actifs}
     \label{fig:ewp_allocation}
 \end{figure}
+\clearpage
 
 \section{Inverse-Volatility Portfolio (IVP)}
 
@@ -387,32 +427,29 @@ Sous l'hypothèse d'indépendance, $\Sigma_{ij} = 0$ pour $i \neq j$, donc :
 En utilisant l'inégalité de Cauchy-Schwarz, on peut montrer que les poids IVP minimisent cette expression sous contrainte $\sum w_i = 1$ et $w_i \geq 0$.
 \end{proof}
 
-\subsection{Avantages et Limitations}
-
-\textbf{Avantages :}
-\begin{itemize}
-    \item Première prise en compte du risque
-    \item Calcul très simple (uniquement la diagonale de $\boldsymbol{\Sigma}$)
-    \item Plus robuste que EWP face à des actifs très volatils
-    \item Bonne performance empirique dans certains contextes
-\end{itemize}
-
-\textbf{Limitations :}
-\begin{itemize}
-    \item Ignore les corrélations entre actifs
-    \item Ignore les rendements espérés
-    \item Peut être sous-optimal si les corrélations sont fortes
-    \item Ne minimise pas exactement la variance du portefeuille
-\end{itemize}
+%\subsection{Avantages et Limitations}
+%
+%\textbf{Avantages :}
+%\begin{itemize}
+%    \item Première prise en compte du risque
+%    \item Calcul très simple (uniquement la diagonale de $\boldsymbol{\Sigma}$)
+%    \item Plus robuste que EWP face à des actifs très volatils
+%    \item Bonne performance empirique dans certains contextes
+%\end{itemize}
+%
+%\textbf{Limitations :}
+%\begin{itemize}
+%    \item Ignore les corrélations entre actifs
+%    \item Ignore les rendements espérés
+%    \item Peut être sous-optimal si les corrélations sont fortes
+%    \item Ne minimise pas exactement la variance du portefeuille
+%\end{itemize}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{3cm}
-        \textit{[Insérer ici : Comparaison des allocations EWP vs IVP pour actifs de volatilités différentes]}
-        \vspace{3cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.3]{images/EWP_IVP.png}
+    }
     \caption{Comparaison des allocations EWP et IVP}
     \label{fig:ewp_vs_ivp}
 \end{figure}
@@ -502,27 +539,19 @@ La variance du portefeuille GMVP est :
     \item Minimise rigoureusement le risque total
     \item Exploite pleinement la structure de corrélation
     \item Solution analytique disponible
-    \item Robuste aux erreurs d'estimation de $\boldsymbol{\mu}$ (n'utilise que $\boldsymbol{\Sigma}$)
-    \item Premier point de la frontière efficiente
 \end{itemize}
 
 \textbf{Limitations :}
 \begin{itemize}
     \item Ignore complètement les rendements espérés
-    \item Peut donner des rendements espérés faibles
     \item Sensible aux erreurs d'estimation de $\boldsymbol{\Sigma}$
-    \item Peut nécessiter la régularisation de $\boldsymbol{\Sigma}$
-    \item Positions potentiellement instables dans le temps
 \end{itemize}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{3cm}
-        \textit{[Insérer ici : Position du GMVP sur la frontière efficiente]}
-        \vspace{3cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.3]{images/GVM.png}
+    }
     \caption{Position du GMVP sur la frontière efficiente}
     \label{fig:gmvp_frontier}
 \end{figure}
@@ -566,15 +595,6 @@ Sans contraintes de non-négativité, la solution du problème avec rendement ci
 où $\mathbf{w}^*$ est un portefeuille de référence et $\lambda^*$ dépend de $r_{target}$.
 \end{theorem}
 
-Une expression plus explicite utilise deux fonds mutuels :
-
-\begin{theorem}[Théorème de séparation en deux fonds]
-Tout portefeuille efficient peut s'écrire comme combinaison linéaire de deux portefeuilles efficients :
-\begin{equation}
-    \mathbf{w}^{MV} = \alpha \mathbf{w}_1 + (1-\alpha) \mathbf{w}_2
-\end{equation}
-où $\mathbf{w}_1$ et $\mathbf{w}_2$ sont deux portefeuilles efficients arbitraires.
-\end{theorem}
 
 \subsection{Frontière Efficiente}
 
@@ -595,12 +615,9 @@ où $A$, $B$, $C$, $D$ sont des constantes dépendant de $\boldsymbol{\mu}$ et $
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Frontière efficiente complète avec GMVP et plusieurs portefeuilles MVO]}
-        \vspace{4cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.3]{images/MVO_GVM.png}
+    }
     \caption{Frontière efficiente de Markowitz}
     \label{fig:efficient_frontier}
 \end{figure}
@@ -738,12 +755,9 @@ où $SR(\mathbf{w}^{MS})$ est le ratio de Sharpe du portefeuille tangent.
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Frontière efficiente avec portefeuille tangent et CML]}
-        \vspace{4cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.3]{images/Max-Sharp.png}
+    }
     \caption{Portefeuille tangent et ligne de marché des capitaux}
     \label{fig:tangency_cml}
 \end{figure}
@@ -834,12 +848,9 @@ Le MDP n'utilise que la matrice de covariance $\boldsymbol{\Sigma}$ et pas les r
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{3cm}
-        \textit{[Insérer ici : Comparaison des allocations MDP vs Max Sharpe]}
-        \vspace{3cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.3]{images/MDP.png}
+    }
     \caption{Comparaison MDP et Max Sharpe}
     \label{fig:mdp_comparison}
 \end{figure}
@@ -972,21 +983,16 @@ Le concept de Risk Parity peut être généralisé :
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{3cm}
-        \textit{[Insérer ici : Diagrammes comparant allocations et contributions au risque pour Risk Parity]}
-        \vspace{3cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.5]{images/decomposition-Risque-parity.png}
+    }
     \caption{Allocation et contribution au risque du portefeuille Risk Parity}
     \label{fig:risk_parity}
 \end{figure}
 
-\chapter{Implémentation et Résultats Empiriques}
+\chapter{Implémentation et Résultats}
 
 \section{Architecture de l'Application}
-
-\subsection{Technologie et Outils}
 
 L'application a été développée en Python avec les bibliothèques suivantes :
 
@@ -998,37 +1004,10 @@ L'application a été développée en Python avec les bibliothèques suivantes :
     \item \textbf{Plotly} : Visualisations interactives
 \end{itemize}
 
-\subsection{Structure du Code}
-
-Le code est organisé en modules fonctionnels :
-
-\begin{lstlisting}[language=Python, caption=Structure principale]
-# Utilitaires financiers
-def load_price_data(tickers, start, end)
-def compute_return_stats(prices, freq=252)
-def shrink_covariance(cov, alpha=0.2)
-
-# Methodes d'optimisation
-def optimize_mean_variance(mu, cov, ...)
-def optimize_max_sharpe(mu, cov, ...)
-def optimize_global_min_variance(cov, ...)
-def most_diversified_portfolio(mu, cov, ...)
-def risk_parity_portfolio(cov, ...)
-
-# Performance et backtest
-def portfolio_performance(weights, mu, cov)
-def backtest_constant_weights(weights, returns)
-def compute_efficient_frontier(mu, cov, ...)
-
-# Visualisations
-def plot_efficient_frontier(...)
-def plot_weights_comparison(...)
-def plot_cumulative_returns(...)
-\end{lstlisting}
 
 \section{Méthodologie d'Analyse}
 
-\subsection{Données}
+\subsection*{Données}
 
 Nous utilisons des données historiques de prix journaliers pour un ensemble d'actifs :
 \begin{itemize}
@@ -1037,7 +1016,7 @@ Nous utilisons des données historiques de prix journaliers pour un ensemble d'a
     \item \textbf{Fréquence :} Données journalières
 \end{itemize}
 
-\subsection{Calcul des Statistiques}
+\subsection*{Calcul des Statistiques}
 
 Les rendements logarithmiques sont calculés :
 \begin{equation}
@@ -1052,19 +1031,14 @@ L'estimation des paramètres utilise :
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Screenshot de l'interface Streamlit - onglet Données]}
-        \vspace{4cm}
-    }}
-    \caption{Interface de l'application - Analyse des données}
+    \fbox{
+	\includegraphics[scale=0.4]{images/screenshot-app.png}
+    }
+    \caption{Interface de l'application}
     \label{fig:app_data}
 \end{figure}
 
-\section{Résultats : Frontière Efficiente}
-
-\subsection{Frontière Déterministe vs Monte Carlo}
+\section{Frontière Efficiente}
 
 L'application calcule la frontière efficiente de deux manières :
 
@@ -1075,90 +1049,40 @@ L'application calcule la frontière efficiente de deux manières :
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{5cm}
-        \textit{[Insérer ici : Frontière efficiente avec points Monte Carlo, portefeuilles optimisés et actifs individuels]}
-        \vspace{5cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.4]{images/eff-frotier-mc.png}
+    }
     \caption{Frontière efficiente : Optimisation vs Monte Carlo}
     \label{fig:results_frontier}
 \end{figure}
 
-\subsection{Position des Différentes Méthodes}
 
-Le graphique révèle la position relative de chaque méthode :
-
-\begin{itemize}
-    \item \textbf{GMVP :} Point le plus à gauche (risque minimal)
-    \item \textbf{Max Sharpe :} Point sur la frontière avec la pente maximale
-    \item \textbf{MDP :} Entre GMVP et Max Sharpe, bien diversifié
-    \item \textbf{Risk Parity :} Similaire à MDP, contributions égales
-    \item \textbf{Equal-Weighted :} Généralement sous-optimal mais robuste
-    \item \textbf{Inverse-Volatility :} Amélioration de EWP, entre EWP et GMVP
-\end{itemize}
-
-\section{Résultats : Allocations Optimales}
-
-\subsection{Comparaison des Allocations}
+\section{Allocations Optimales}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Diagramme en barres groupées comparant les allocations de toutes les méthodes]}
-        \vspace{4cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.4]{images/allocations.png}
+    }
     \caption{Comparaison des allocations pour les 7 méthodes}
     \label{fig:results_allocations}
 \end{figure}
 
-\subsection{Analyse des Concentrations}
 
-\begin{table}[H]
-\centering
-\caption{Concentration des portefeuilles (exemple)}
-\label{tab:concentration}
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Méthode} & \textbf{HHI} & \textbf{Poids Max} & \textbf{N Effectif} & \textbf{Entropy} \\
-\midrule
-Equal-Weighted & 0.143 & 14.3\% & 7.0 & 1.95 \\
-Inverse-Vol & 0.167 & 18.2\% & 6.0 & 1.85 \\
-GMVP & 0.201 & 24.5\% & 5.0 & 1.72 \\
-Mean-Variance & 0.234 & 28.1\% & 4.3 & 1.61 \\
-Max Sharpe & 0.312 & 35.7\% & 3.2 & 1.38 \\
-MDP & 0.178 & 19.8\% & 5.6 & 1.81 \\
-Risk Parity & 0.165 & 17.9\% & 6.1 & 1.86 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\section{Performance Historique}
 
-où :
-\begin{itemize}
-    \item \textbf{HHI :} Herfindahl-Hirschman Index = $\sum_{i=1}^{N} w_i^2$
-    \item \textbf{N Effectif :} Nombre effectif d'actifs = $1/\text{HHI}$
-    \item \textbf{Entropy :} $-\sum_{i=1}^{N} w_i \ln(w_i)$
-\end{itemize}
-
-\section{Résultats : Performance Historique}
-
-\subsection{Backtest sur Période Complète}
+\subsection*{Backtest sur Période Complète}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Graphique des rendements cumulés pour tous les portefeuilles]}
-        \vspace{4cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.4]{images/backtest.png}
+    }
     \caption{Performance historique (backtest) des 7 méthodes}
     \label{fig:results_backtest}
 \end{figure}
 
-\subsection{Statistiques de Performance}
+\subsection*{Statistiques de Performance}
 
 \begin{table}[H]
 \centering
@@ -1179,7 +1103,7 @@ Risk Parity & 17.9\% & 20.1\% & 0.89 & -24.8\% \\
 \end{tabular}
 \end{table}
 
-\subsection{Analyse des Résultats}
+\subsection*{Analyse des Résultats}
 
 \textbf{Observations principales :}
 
@@ -1195,33 +1119,27 @@ Risk Parity & 17.9\% & 20.1\% & 0.89 & -24.8\% \\
 
 \section{Analyse du Risque}
 
-\subsection{Décomposition du Risque}
+\subsection*{Décomposition du Risque}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{3cm}
-        \textit{[Insérer ici : Deux pie charts côte à côte - Allocation vs Contribution au risque pour Max Sharpe]}
-        \vspace{3cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.5]{images/decomposition-Risque.png}
+    }
     \caption{Allocation du capital vs Contribution au risque (Max Sharpe)}
     \label{fig:risk_decomp_sharpe}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{3cm}
-        \textit{[Insérer ici : Deux pie charts côte à côte - Allocation vs Contribution au risque pour Risk Parity]}
-        \vspace{3cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.5]{images/decomposition-Risque-parity.png}
+    }
     \caption{Allocation du capital vs Contribution au risque (Risk Parity)}
     \label{fig:risk_decomp_rp}
 \end{figure}
 
-\subsection{Value at Risk (VaR) et CVaR}
+\subsection*{Value at Risk (VaR) et CVaR}
 
 \begin{table}[H]
 \centering
@@ -1242,59 +1160,20 @@ Risk Parity & -1.9\% & -2.6\% & -3.0\% & -3.8\% \\
 \end{tabular}
 \end{table}
 
-\subsection{Distribution des Rendements}
+\subsection*{Distribution des Rendements}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Histogramme de la distribution des rendements quotidiens avec lignes VaR]}
-        \vspace{4cm}
-    }}
+    \fbox{
+	\includegraphics[scale=0.4]{images/dist-var.png}
+    }
     \caption{Distribution des rendements quotidiens avec VaR}
     \label{fig:returns_distribution}
 \end{figure}
 
-\section{Sensibilité et Robustesse}
-
-\subsection{Impact du Shrinkage}
-
-\begin{table}[H]
-\centering
-\caption{Impact du paramètre de shrinkage sur GMVP}
-\label{tab:shrinkage_impact}
-\begin{tabular}{lcccc}
-\toprule
-\textbf{$\alpha$ (shrinkage)} & \textbf{Vol. Ann.} & \textbf{Sharpe} & \textbf{Turnover} & \textbf{HHI} \\
-\midrule
-0.0 (pas de shrinkage) & 16.8\% & 0.89 & 45\% & 0.215 \\
-0.2 (défaut) & 17.2\% & 0.86 & 32\% & 0.201 \\
-0.5 & 18.1\% & 0.81 & 23\% & 0.185 \\
-1.0 (diagonal uniquement) & 19.8\% & 0.75 & 15\% & 0.167 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Interprétation :} Le shrinkage réduit la concentration et le turnover au prix d'une légère augmentation de la volatilité.
-
-\subsection{Stabilité Temporelle}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Graphique de l'évolution des poids dans le temps avec rebalancement mensuel]}
-        \vspace{4cm}
-    }}
-    \caption{Évolution des allocations avec rebalancement mensuel}
-    \label{fig:weights_evolution}
-\end{figure}
-
 \section{Recommandations Pratiques}
 
-\subsection{Choix de la Méthode selon le Profil}
+\subsection*{Choix de la Méthode selon le Profil}
 
 \begin{table}[H]
 \centering
@@ -1317,198 +1196,15 @@ Institutionnel & \textbf{Risk Parity} : Standard de l'industrie, justification c
 \end{tabular}
 \end{table}
 
-\subsection{Considérations Pratiques}
 
-\begin{enumerate}
-    \item \textbf{Fréquence de rebalancement :}
-    \begin{itemize}
-        \item Méthodes stables (EWP, Risk Parity) : Trimestriel ou semestriel
-        \item Méthodes dynamiques (Max Sharpe) : Mensuel avec seuils de tolérance
-    \end{itemize}
-    
-    \item \textbf{Coûts de transaction :}
-    \begin{itemize}
-        \item Privilégier les méthodes à faible turnover
-        \item Implémenter des bandes de rebalancement (±2-5\%)
-    \end{itemize}
-    
-    \item \textbf{Contraintes réglementaires :}
-    \begin{itemize}
-        \item Limiter les poids individuels (ex: $w_i \leq 20\%$)
-        \item Interdire ou limiter le short selling selon le mandat
-    \end{itemize}
-    
-    \item \textbf{Estimation des paramètres :}
-    \begin{itemize}
-        \item Utiliser le shrinkage pour $\boldsymbol{\Sigma}$ ($\alpha \approx 0.2$)
-        \item Privilégier les méthodes n'utilisant pas $\boldsymbol{\mu}$ pour la robustesse
-        \item Rolling window de 2-3 ans pour l'estimation
-    \end{itemize}
-\end{enumerate}
+\chapter*{Conclusion et Perspectives}
+\addcontentsline{toc}{chapter}{Conclusion et Perspectives}
 
-\chapter{Conclusion et Perspectives}
+Ce projet a analysé l'optimisation de portefeuille, confirmant empiriquement que les méthodes simples et robustes, qui évitent l'estimation des rendements attendus ($\boldsymbol{\mu}$), surpassent souvent les modèles complexes en dehors de l'échantillon. L'utilisation du shrinkage de la covariance s'est avérée cruciale pour la stabilité des allocations. L'étude reste toutefois limitée par les hypothèses académiques classiques (normalité, stationnarité des rendements) et par la difficulté majeure d'estimer $\boldsymbol{\mu}$ avec précision.
 
-\section{Synthèse des Résultats}
+Les perspectives pour surmonter ces défis incluent des approches théoriques comme l'optimisation robuste, les modèles factoriels et l'usage de mesures de risque alternatives (telles que la CVaR). Sur le plan pratique, les extensions futures se concentreront sur des backtests rigoureux incluant les coûts de transaction, l'intégration de contraintes réelles (sectorielles, ESG) et l'application de techniques de Machine Learning pour la prévision ou la construction de portefeuilles.
 
-Ce projet a présenté une étude complète de l'optimisation de portefeuille, couvrant à la fois les aspects théoriques et empiriques. Les principales conclusions sont :
-
-\subsection{Contributions Théoriques}
-
-\begin{enumerate}
-    \item \textbf{Formalisation mathématique rigoureuse} de sept méthodes d'optimisation avec démonstrations des propriétés clés
-    
-    \item \textbf{Analyse comparative} montrant les trade-offs entre simplicité, robustesse et performance
-    
-    \item \textbf{Mise en évidence} du paradoxe entre complexité théorique et performance pratique
-\end{enumerate}
-
-\subsection{Résultats Empiriques}
-
-\begin{enumerate}
-    \item Les méthodes simples (EWP, IVP) offrent une performance surprenante compte tenu de leur simplicité
-    
-    \item Les méthodes robustes (GMVP, MDP, Risk Parity) surpassent souvent les méthodes utilisant $\boldsymbol{\mu}$ en out-of-sample
-    
-    \item Le shrinkage de la covariance améliore significativement la stabilité des allocations
-    
-    \item Le ratio de Sharpe out-of-sample est souvent plus élevé pour les méthodes diversifiées (MDP, Risk Parity)
-\end{enumerate}
-
-\subsection{Recommandations Pratiques}
-
-Pour un investisseur :
-\begin{itemize}
-    \item \textbf{Court terme / Trading actif :} Equal-Weighted ou Mean-Variance avec rebalancement mensuel
-    \item \textbf{Long terme / Buy-and-hold :} Risk Parity ou MDP avec rebalancement trimestriel
-    \item \textbf{Conservateur :} GMVP avec shrinkage
-    \item \textbf{Agressif :} Max Sharpe avec contraintes de concentration
-\end{itemize}
-
-\section{Limitations}
-
-\subsection{Limitations Théoriques}
-
-\begin{enumerate}
-    \item \textbf{Hypothèse de normalité :} Les rendements réels présentent des queues épaisses et de l'asymétrie
-    
-    \item \textbf{Stationnarité :} Les paramètres $\boldsymbol{\mu}$ et $\boldsymbol{\Sigma}$ évoluent dans le temps
-    
-    \item \textbf{Absence de frictions :} Les coûts de transaction et contraintes réglementaires sont simplifiés
-    
-    \item \textbf{Horizon unique :} Les méthodes présentées sont mono-période
-\end{enumerate}
-
-\subsection{Limitations Pratiques}
-
-\begin{enumerate}
-    \item \textbf{Erreurs d'estimation :} L'estimation de $\boldsymbol{\mu}$ reste très difficile malgré le shrinkage
-    
-    \item \textbf{Données historiques :} Les performances passées ne garantissent pas les performances futures
-    
-    \item \textbf{Liquidité :} Non prise en compte des contraintes de liquidité et de capacité
-    
-    \item \textbf{Changements de régime :} Les corrélations augmentent durant les crises (breakdown de diversification)
-\end{enumerate}
-
-\section{Extensions et Perspectives}
-
-\subsection{Extensions Théoriques}
-
-\begin{enumerate}
-    \item \textbf{Optimisation robuste :} Prise en compte explicite de l'incertitude sur $\boldsymbol{\mu}$ et $\boldsymbol{\Sigma}$
-    \begin{equation}
-        \min_{\mathbf{w}} \max_{\boldsymbol{\mu} \in \mathcal{U}_\mu, \boldsymbol{\Sigma} \in \mathcal{U}_\Sigma} \mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w} - \gamma \mathbf{w}^T \boldsymbol{\mu}
-    \end{equation}
-    
-    \item \textbf{Modèles à facteurs :} Utilisation de modèles factoriels (Fama-French, PCA)
-    \begin{equation}
-        r_i = \alpha_i + \sum_{k=1}^{K} \beta_{ik} f_k + \epsilon_i
-    \end{equation}
-    
-    \item \textbf{Optimisation multi-période :} Programmation dynamique stochastique
-    
-    \item \textbf{Mesures de risque alternatives :} CVaR, Expected Shortfall, Downside Risk
-    
-    \item \textbf{Optimisation Black-Litterman :} Combinaison de vues d'expert avec l'équilibre de marché
-\end{enumerate}
-
-\subsection{Extensions Pratiques}
-
-\begin{enumerate}
-    \item \textbf{Backtest out-of-sample rigoureux :}
-    \begin{itemize}
-        \item Séparation train/test avec rolling window
-        \item Walk-forward analysis
-        \item Prise en compte des coûts de transaction
-    \end{itemize}
-    
-    \item \textbf{Rebalancement optimisé :}
-    \begin{itemize}
-        \item Minimisation du turnover sous contrainte de tracking error
-        \item Bandes de rebalancement adaptatives
-    \end{itemize}
-    
-    \item \textbf{Contraintes sectorielles :}
-    \begin{itemize}
-        \item Limites par secteur économique
-        \item Neutralité sectorielle vs benchmark
-    \end{itemize}
-    
-    \item \textbf{Intégration ESG :}
-    \begin{itemize}
-        \item Scores ESG comme contraintes ou pénalités
-        \item Optimisation multi-objectif (rendement, risque, ESG)
-    \end{itemize}
-    
-    \item \textbf{Machine Learning :}
-    \begin{itemize}
-        \item Prédiction de $\boldsymbol{\mu}$ par modèles ML
-        \item Estimation de covariance conditionnelle (GARCH, DCC)
-        \item Clustering hiérarchique pour portfolio construction
-    \end{itemize}
-\end{enumerate}
-
-\subsection{Développements Futurs de l'Application}
-
-\begin{enumerate}
-    \item Interface d'upload de données personnalisées
-    \item Optimisation avec contraintes personnalisées (secteurs, ESG)
-    \item Module de backtesting avancé avec transaction costs
-    \item Analyse de sensibilité automatisée
-    \item Export des résultats (PDF, Excel)
-    \item API pour intégration dans d'autres systèmes
-    \item Comparaison avec benchmarks (indices de marché)
-\end{enumerate}
-
-\section{Conclusion Finale}
-
-L'optimisation de portefeuille reste un domaine actif de recherche et de pratique en finance. Si la théorie de Markowitz fournit une base solide, les défis pratiques d'estimation et de robustesse nécessitent des approches adaptées.
-
-Les principales leçons de ce projet sont :
-
-\begin{enumerate}
-    \item \textbf{Il n'existe pas de méthode universellement optimale} : Le choix dépend du contexte, des contraintes et de l'horizon
-    
-    \item \textbf{La simplicité peut surpasser la complexité} : Les méthodes simples (EWP, Risk Parity) offrent souvent de meilleures performances out-of-sample
-    
-    \item \textbf{La robustesse est cruciale} : Éviter l'utilisation de $\boldsymbol{\mu}$ ou utiliser le shrinkage améliore significativement les résultats
-    
-    \item \textbf{La diversification reste le seul free lunch} : Toutes les méthodes bénéficient de la diversification, mais certaines l'optimisent mieux
-\end{enumerate}
-
-L'application développée fournit un outil pratique et pédagogique pour explorer ces concepts et comparer les différentes approches sur des données réelles.
-
-\vspace{1cm}
-
-\begin{center}
-\rule{0.5\textwidth}{0.4pt}
-
-\textit{« Diversification is the only free lunch in finance. »}
-
---- Harry Markowitz, Prix Nobel d'Économie 1990
-
-\rule{0.5\textwidth}{0.4pt}
-\end{center}
+En conclusion, ce projet confirme qu'il n'existe pas de méthode universellement optimale ; la complexité théorique se heurte à l'incertitude pratique. Les leçons clés sont la supériorité fréquente de la simplicité en out-of-sample, l'importance cruciale de la robustesse (surtout vis-à-vis de $\boldsymbol{\mu}$), et la primauté de la diversification. Comme l'a souligné Harry Markowitz, celle-ci demeure le seul "free lunch" en finance.
 
 \begin{thebibliography}{99}
 
@@ -1522,10 +1218,6 @@ Sharpe, W. F. (1964).
 \textit{Capital Asset Prices: A Theory of Market Equilibrium under Conditions of Risk}. 
 The Journal of Finance, 19(3), 425-442.
 
-\bibitem{demiguel2009}
-DeMiguel, V., Garlappi, L., \& Uppal, R. (2009). 
-\textit{Optimal Versus Naive Diversification: How Inefficient is the 1/N Portfolio Strategy?} 
-The Review of Financial Studies, 22(5), 1915-1953.
 
 \bibitem{ledoit2003}
 Ledoit, O., \& Wolf, M. (2003). 
@@ -1564,560 +1256,11 @@ Journal of Machine Learning Research, 17(83), 1-5.
 
 \end{thebibliography}
 
-\appendix
 
-\chapter{Compléments Mathématiques}
-
-\section{Rappels d'Algèbre Linéaire}
-
-\subsection{Matrices Définies Positives}
-
-\begin{definition}
-Une matrice symétrique $\mathbf{A} \in \R^{n \times n}$ est dite :
-\begin{itemize}
-    \item \textbf{Semi-définie positive (SDP)} si $\mathbf{x}^T \mathbf{A} \mathbf{x} \geq 0$ pour tout $\mathbf{x} \in \R^n$
-    \item \textbf{Définie positive (DP)} si $\mathbf{x}^T \mathbf{A} \mathbf{x} > 0$ pour tout $\mathbf{x} \neq \mathbf{0}$
-\end{itemize}
-\end{definition}
-
-\begin{proposition}
-La matrice de covariance $\boldsymbol{\Sigma}$ est toujours semi-définie positive.
-\end{proposition}
-
-\subsection{Optimisation sous Contraintes}
-
-\begin{theorem}[Conditions KKT]
-Pour un problème d'optimisation convexe :
-\begin{equation}
-    \begin{aligned}
-        \min_{\mathbf{x}} \quad & f(\mathbf{x}) \\
-        \text{s.c.} \quad & g_i(\mathbf{x}) \leq 0, \quad i = 1, \ldots, m \\
-        & h_j(\mathbf{x}) = 0, \quad j = 1, \ldots, p
-    \end{aligned}
-\end{equation}
-Les conditions de Karush-Kuhn-Tucker sont nécessaires et suffisantes pour l'optimalité.
-\end{theorem}
-
-\section{Code Source Complet}
-
-\subsection{Fonction d'Optimisation Max Sharpe}
-
-\begin{lstlisting}[language=Python, caption=Implémentation Max Sharpe]
-def optimize_max_sharpe(mu, cov, min_weight=0.0, 
-                        max_weight=1.0, allow_short=False):
-    """Portefeuille tangent (Max Sharpe)"""
-    n = len(mu)
-    kappa = cp.Variable()
-    y = cp.Variable(n)
-    
-    # Transformation: y = kappa * w
-    constraints_sharpe = [
-        cp.quad_form(y, cov.values) <= 1,
-        cp.sum(y) == kappa,
-        kappa >= 0,
-    ]
-    
-    if allow_short:
-        constraints_sharpe += [
-            y >= -max_weight * kappa, 
-            y <= max_weight * kappa
-        ]
-    else:
-        constraints_sharpe += [
-            y >= min_weight * kappa, 
-            y <= max_weight * kappa
-        ]
-    
-    objective = cp.Maximize(mu.values @ y)
-    prob = cp.Problem(objective, constraints_sharpe)
-    
-    prob.solve(solver=cp.ECOS, verbose=False)
-    
-    if y.value is None or kappa.value <= 1e-10:
-        return None
-    
-    # Recuperer les poids: w = y / kappa
-    w_opt = np.array(y.value).flatten() / kappa.value
-    w_opt = w_opt / np.sum(w_opt)
-    
-    return pd.Series(w_opt, index=mu.index)
-\end{lstlisting}
-
-\subsection{Algorithme Risk Parity}
-
-\begin{lstlisting}[language=Python, caption=Implémentation Risk Parity]
-def risk_parity_portfolio(cov, max_iter=1000, tol=1e-8):
-    """Risk Parity Portfolio"""
-    n = len(cov)
-    
-    # Initialisation avec inverse volatility
-    vols = np.sqrt(np.diag(cov.values))
-    weights = 1 / vols
-    weights = weights / weights.sum()
-    
-    cov_matrix = cov.values
-    
-    for iteration in range(max_iter):
-        port_vol = np.sqrt(weights @ cov_matrix @ weights)
-        marginal_contrib = cov_matrix @ weights
-        risk_contrib = weights * marginal_contrib / port_vol
-        
-        target_risk = port_vol / n
-        
-        # Mise a jour des poids
-        weights_new = weights * target_risk / risk_contrib
-        weights_new = weights_new / weights_new.sum()
-        
-        # Test de convergence
-        if np.allclose(weights, weights_new, rtol=tol):
-            break
-        
-        weights = weights_new
-    
-    return pd.Series(weights, index=cov.index)
-\end{lstlisting}
-
-\chapter{Glossaire}
-
-\begin{description}
-    \item[Actif sans risque] Actif dont le rendement est certain (typiquement obligations d'État à court terme)
-    
-    \item[Alpha] Rendement excédentaire d'un portefeuille par rapport à son benchmark
-    
-    \item[Beta] Sensibilité du rendement d'un actif aux mouvements du marché
-    
-    \item[Covariance] Mesure de la co-variation entre deux variables aléatoires
-    
-    \item[CVaR (Conditional Value at Risk)] Perte moyenne dans les $\alpha$\% pires scénarios
-    
-    \item[Drawdown] Baisse du portefeuille depuis son plus haut historique
-    
-    \item[Frontière efficiente] Ensemble des portefeuilles optimaux (minimisant le risque pour chaque niveau de rendement)
-    
-    \item[HHI (Herfindahl-Hirschman Index)] Mesure de concentration : $\sum w_i^2$
-    
-    \item[Ratio de Sharpe] Ratio rendement excédentaire sur volatilité : $(r_p - r_f)/\sigma_p$
-    
-    \item[Shrinkage] Technique de régularisation pour réduire l'erreur d'estimation
-    
-    \item[Tracking Error] Écart-type des différences de rendement entre un portefeuille et son benchmark
-    
-    \item[Turnover] Taux de rotation du portefeuille (volume d'achats/ventes)
-    
-    \item[VaR (Value at Risk)] Perte maximale avec un niveau de confiance donné (ex: 95\%)
-    
-    \item[Volatilité] Écart-type des rendements, mesure du risque
-\end{description}
-
-\chapter{Captures d'Écran de l'Application}
-
-\section{Interface Principale}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{6cm}
-        \textit{[Insérer ici : Screenshot de la page d'accueil de l'application avec la description des méthodes]}
-        \vspace{6cm}
-    }}
-    \caption{Page d'accueil avec descriptions des méthodes}
-    \label{fig:app_home}
-\end{figure}
-
-\section{Configuration des Paramètres}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{5cm}
-        \textit{[Insérer ici : Screenshot de la barre latérale avec tous les paramètres configurables]}
-        \vspace{5cm}
-    }}
-    \caption{Panneau de configuration dans la barre latérale}
-    \label{fig:app_sidebar}
-\end{figure}
-
-\section{Onglet Analyse}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{5cm}
-        \textit{[Insérer ici : Screenshot de l'onglet Analyse avec prix historiques et rendements]}
-        \vspace{5cm}
-    }}
-    \caption{Onglet Analyse - Prix et rendements}
-    \label{fig:app_analysis}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{5cm}
-        \textit{[Insérer ici : Screenshot de la matrice de corrélation interactive]}
-        \vspace{5cm}
-    }}
-    \caption{Matrice de corrélation interactive}
-    \label{fig:app_correlation}
-\end{figure}
-
-\section{Onglet Portefeuilles}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{6cm}
-        \textit{[Insérer ici : Screenshot de la frontière efficiente avec Monte Carlo]}
-        \vspace{6cm}
-    }}
-    \caption{Frontière efficiente avec simulations Monte Carlo}
-    \label{fig:app_frontier}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{5cm}
-        \textit{[Insérer ici : Screenshot du graphique de comparaison des allocations]}
-        \vspace{5cm}
-    }}
-    \caption{Comparaison des allocations des portefeuilles}
-    \label{fig:app_allocations}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Screenshot du tableau de statistiques des portefeuilles]}
-        \vspace{4cm}
-    }}
-    \caption{Tableau de statistiques des portefeuilles optimisés}
-    \label{fig:app_stats_table}
-\end{figure}
-
-\section{Onglet Performance}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{5cm}
-        \textit{[Insérer ici : Screenshot des courbes de performance cumulée]}
-        \vspace{5cm}
-    }}
-    \caption{Performance cumulée des portefeuilles}
-    \label{fig:app_performance}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Screenshot du tableau de statistiques de backtest]}
-        \vspace{4cm}
-    }}
-    \caption{Tableau de statistiques de backtest}
-    \label{fig:app_backtest_stats}
-\end{figure}
-
-\section{Onglet Risque}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{5cm}
-        \textit{[Insérer ici : Screenshot des pie charts allocation vs contribution au risque]}
-        \vspace{5cm}
-    }}
-    \caption{Allocation du capital vs Contribution au risque}
-    \label{fig:app_risk_decomp}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Screenshot du tableau de décomposition du risque]}
-        \vspace{4cm}
-    }}
-    \caption{Tableau détaillé de décomposition du risque}
-    \label{fig:app_risk_table}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Screenshot des métriques VaR et CVaR]}
-        \vspace{4cm}
-    }}
-    \caption{Métriques Value at Risk}
-    \label{fig:app_var}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{5cm}
-        \textit{[Insérer ici : Screenshot de l'histogramme de distribution des rendements]}
-        \vspace{5cm}
-    }}
-    \caption{Distribution des rendements avec lignes VaR}
-    \label{fig:app_distribution}
-\end{figure}
-
-\section{Section Recommandation}
-
-\begin{figure}[H]
-    \centering
-    \fbox{\parbox{0.9\textwidth}{
-        \centering
-        \vspace{4cm}
-        \textit{[Insérer ici : Screenshot de la section recommandation avec le meilleur portefeuille]}
-        \vspace{4cm}
-    }}
-    \caption{Section recommandation du meilleur portefeuille}
-    \label{fig:app_recommendation}
-\end{figure}
-
-\chapter{Formules de Référence Rapide}
-
-\section{Statistiques de Base}
-
-\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Rendements et Variance]
-\textbf{Rendement du portefeuille :}
-\[
-\mu_p = \mathbf{w}^T \boldsymbol{\mu} = \sum_{i=1}^{N} w_i \mu_i
-\]
-
-\textbf{Variance du portefeuille :}
-\[
-\sigma_p^2 = \mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w} = \sum_{i=1}^{N} \sum_{j=1}^{N} w_i w_j \Sigma_{ij}
-\]
-
-\textbf{Ratio de Sharpe :}
-\[
-SR = \frac{\mu_p - r_f}{\sigma_p} = \frac{\mathbf{w}^T \boldsymbol{\mu} - r_f}{\sqrt{\mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w}}}
-\]
-\end{tcolorbox}
-
-\section{Solutions Analytiques}
-
-\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Portefeuilles Sans Contraintes]
-\textbf{Global Minimum Variance (GMVP) :}
-\[
-\mathbf{w}^{GMVP} = \frac{\boldsymbol{\Sigma}^{-1} \mathbf{1}}{\mathbf{1}^T \boldsymbol{\Sigma}^{-1} \mathbf{1}}
-\]
-
-\textbf{Portefeuille Tangent (Max Sharpe) :}
-\[
-\mathbf{w}^{MS} = \frac{\boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}}{\mathbf{1}^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}}
-\]
-
-\textbf{Equal-Weighted :}
-\[
-\mathbf{w}^{EWP} = \frac{1}{N} \mathbf{1}
-\]
-
-\textbf{Inverse-Volatility :}
-\[
-w_i^{IVP} = \frac{1/\sigma_i}{\sum_{j=1}^{N} 1/\sigma_j}
-\]
-\end{tcolorbox}
-
-\section{Métriques de Risque}
-
-\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Mesures de Risque]
-\textbf{Contribution au risque de l'actif $i$ :}
-\[
-RC_i = w_i \frac{(\boldsymbol{\Sigma} \mathbf{w})_i}{\sigma_p}
-\]
-
-\textbf{Ratio de diversification :}
-\[
-DR = \frac{\sum_{i=1}^{N} w_i \sigma_i}{\sqrt{\mathbf{w}^T \boldsymbol{\Sigma} \mathbf{w}}}
-\]
-
-\textbf{Max Drawdown :}
-\[
-MDD = \min_{t} \left( \frac{V_t}{\max_{s \leq t} V_s} - 1 \right)
-\]
-
-\textbf{Value at Risk (VaR) à $\alpha$\% :}
-\[
-\text{VaR}_\alpha = -\text{quantile}_{1-\alpha}(r_p)
-\]
-
-\textbf{Conditional VaR (CVaR) :}
-\[
-\text{CVaR}_\alpha = -\E[r_p \mid r_p \leq -\text{VaR}_\alpha]
-\]
-\end{tcolorbox}
-
-\section{Métriques de Concentration}
-
-\begin{tcolorbox}[colback=orange!5!white,colframe=orange!75!black,title=Mesures de Concentration]
-\textbf{Herfindahl-Hirschman Index :}
-\[
-HHI = \sum_{i=1}^{N} w_i^2
-\]
-
-\textbf{Nombre effectif d'actifs :}
-\[
-N_{eff} = \frac{1}{HHI} = \frac{1}{\sum_{i=1}^{N} w_i^2}
-\]
-
-\textbf{Entropie :}
-\[
-H = -\sum_{i=1}^{N} w_i \ln(w_i)
-\]
-\end{tcolorbox}
-
-\chapter{Instructions d'Installation et d'Utilisation}
-
-\section{Prérequis}
-
-\subsection{Logiciels Requis}
-
-\begin{itemize}
-    \item Python 3.8 ou supérieur
-    \item pip (gestionnaire de paquets Python)
-    \item (Optionnel) Environnement virtuel (venv ou conda)
-\end{itemize}
-
-\subsection{Installation des Dépendances}
-
-Créer un fichier \texttt{requirements.txt} :
-
-\begin{lstlisting}[language=bash, caption=requirements.txt]
-streamlit>=1.28.0
-yfinance>=0.2.28
-cvxpy>=1.4.1
-numpy>=1.24.0
-pandas>=2.0.0
-plotly>=5.17.0
-\end{lstlisting}
-
-Installer les dépendances :
-
-\begin{lstlisting}[language=bash, caption=Installation]
-pip install -r requirements.txt
-\end{lstlisting}
-
-\section{Lancement de l'Application}
-
-\subsection{Ligne de Commande}
-
-\begin{lstlisting}[language=bash]
-streamlit run app_portfolio.py
-\end{lstlisting}
-
-L'application s'ouvre automatiquement dans le navigateur à l'adresse \texttt{http://localhost:8501}.
-
-\subsection{Configuration Initiale}
-
-\begin{enumerate}
-    \item Sélectionner les tickers d'actifs dans la barre latérale
-    \item Choisir la période d'analyse (dates début et fin)
-    \item Sélectionner les méthodes d'optimisation à comparer
-    \item Configurer les contraintes (short selling, poids min/max)
-    \item Activer ou non le shrinkage de covariance
-    \item Cliquer sur "Lancer l'Optimisation"
-\end{enumerate}
-
-\section{Guide d'Utilisation}
-
-\subsection{Onglet Analyse}
-
-\begin{itemize}
-    \item Visualiser l'évolution des prix historiques
-    \item Observer les rendements espérés annualisés
-    \item Analyser la matrice de corrélation
-\end{itemize}
-
-\subsection{Onglet Portefeuilles}
-
-\begin{itemize}
-    \item Explorer la frontière efficiente
-    \item Comparer les positions des différentes méthodes
-    \item Analyser les allocations optimales
-    \item Consulter les statistiques théoriques (rendement, volatilité, Sharpe)
-\end{itemize}
-
-\subsection{Onglet Performance}
-
-\begin{itemize}
-    \item Comparer les performances historiques (backtest)
-    \item Analyser les rendements cumulés
-    \item Évaluer les statistiques de backtest (Sharpe, Max Drawdown)
-\end{itemize}
-
-\subsection{Onglet Risque}
-
-\begin{itemize}
-    \item Sélectionner un portefeuille pour l'analyse détaillée
-    \item Observer la décomposition du risque
-    \item Consulter les métriques VaR et CVaR
-    \item Analyser la distribution des rendements
-\end{itemize}
-
-\section{Conseils d'Utilisation}
-
-\begin{enumerate}
-    \item \textbf{Choix des actifs :} Sélectionner 5-15 actifs pour un équilibre entre diversification et stabilité d'estimation
-    
-    \item \textbf{Période d'analyse :} Utiliser au moins 2-3 ans de données pour une estimation robuste
-    
-    \item \textbf{Contraintes :} Commencer avec des contraintes modérées (max 30\%, pas de short) puis ajuster
-    
-    \item \textbf{Shrinkage :} Utiliser $\alpha = 0.2$ par défaut, augmenter si les résultats sont instables
-    
-    \item \textbf{Interprétation :} Comparer plusieurs méthodes et analyser la cohérence des résultats
-\end{enumerate}
-
-\section{Dépannage}
-
-\subsection{Erreurs Courantes}
-
-\begin{itemize}
-    \item \textbf{Erreur de téléchargement :} Vérifier la connexion internet et la validité des tickers
-    
-    \item \textbf{Optimisation échouée :} Assouplir les contraintes (augmenter max\_weight, réduire min\_weight)
-    
-    \item \textbf{Matrice singulière :} Augmenter le paramètre de shrinkage ou réduire le nombre d'actifs
-    
-    \item \textbf{Performance lente :} Réduire le nombre de points de la frontière efficiente ou les simulations Monte Carlo
-\end{itemize}
-
-\chapter*{Remerciements}
-\addcontentsline{toc}{chapter}{Remerciements}
-
-Je tiens à remercier :
-
-\begin{itemize}
-    \item Mes professeurs pour leur enseignement en finance quantitative et optimisation
-    \item La communauté open-source pour les excellentes bibliothèques Python
-    \item Les contributeurs de Streamlit, CVXPY, et Plotly pour leurs outils fantastiques
-    \item Les chercheurs dont les travaux ont inspiré ce projet
-\end{itemize}
 
 \vspace{2cm}
 
 \begin{center}
-\textit{Ce rapport a été généré avec \LaTeX{}}
 
 \vspace{0.5cm}
 
@@ -2125,11 +1268,11 @@ Je tiens à remercier :
 
 Hassan EL QADI
 
-Email : hassan.elqadi@example.com
+Email : hassanelqadi3@gmail.com
 
-GitHub : github.com/hassan-elqadi
+GitHub : github.com/hassanelq
 
-LinkedIn : linkedin.com/in/hassan-elqadi
+LinkedIn : linkedin.com/in/el-qadi
 \end{center}
 
 \end{document}
