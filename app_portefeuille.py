@@ -305,6 +305,89 @@ def portfolio_performance(weights, mu, cov, rf=0.0):
     return ret, vol, sharpe
 
 
+def calculate_risk_contributions(weights, cov):
+    """
+    Calculate marginal and percentage risk contributions for each asset
+    Returns:
+        - marginal_risk: Marginal Contribution to Risk (MCR) for each asset
+        - risk_contrib: Contribution to Risk (CR) for each asset
+        - pct_contrib: Percentage contribution to total risk
+    """
+    w = weights.values
+    cov_mat = cov.values
+
+    portfolio_var = w @ cov_mat @ w
+    portfolio_vol = np.sqrt(portfolio_var)
+
+    if portfolio_vol < 1e-10:
+        return (
+            pd.Series(0, index=weights.index),
+            pd.Series(0, index=weights.index),
+            pd.Series(0, index=weights.index),
+        )
+
+    # Marginal Contribution to Risk (MCR): ∂σ/∂w_i = (Σw)_i / σ
+    marginal_risk = (cov_mat @ w) / portfolio_vol
+
+    # Contribution to Risk (CR): w_i * MCR_i
+    risk_contrib = w * marginal_risk
+
+    # Percentage contribution to total risk
+    pct_contrib = (risk_contrib / portfolio_vol) * 100
+
+    return (
+        pd.Series(marginal_risk, index=weights.index),
+        pd.Series(risk_contrib, index=weights.index),
+        pd.Series(pct_contrib, index=weights.index),
+    )
+
+
+def calculate_var_cvar(returns, weights, confidence_level=0.95, method="historical"):
+    """
+    Calculate Value at Risk (VaR) and Conditional Value at Risk (CVaR)
+
+    Args:
+        returns: DataFrame of asset returns
+        weights: Series of portfolio weights
+        confidence_level: Confidence level (default 95%)
+        method: 'historical' or 'parametric'
+
+    Returns:
+        var: Value at Risk (positive number representing loss)
+        cvar: Conditional Value at Risk (Expected Shortfall)
+    """
+    # Calculate portfolio returns
+    portfolio_returns = (returns @ weights.values).values
+
+    if method == "historical":
+        # Historical VaR: empirical quantile
+        var = -np.percentile(portfolio_returns, (1 - confidence_level) * 100)
+
+        # CVaR: mean of returns below VaR threshold
+        cvar = -portfolio_returns[portfolio_returns <= -var].mean()
+
+    else:  # parametric (assumes normal distribution)
+        mean_return = portfolio_returns.mean()
+        std_return = portfolio_returns.std()
+
+        # Parametric VaR using normal distribution
+        from scipy import stats
+
+        z_score = stats.norm.ppf(confidence_level)
+        var = -(mean_return - z_score * std_return)
+
+        # Parametric CVaR
+        cvar = -(
+            mean_return - std_return * stats.norm.pdf(z_score) / (1 - confidence_level)
+        )
+
+    # Annualize (daily to annual)
+    var_annual = var * np.sqrt(252)
+    cvar_annual = cvar * np.sqrt(252)
+
+    return var_annual, cvar_annual
+
+
 def compute_efficient_frontier_extended(
     mu, cov, min_weight=0.0, max_weight=1.0, n_points=200
 ):
@@ -700,7 +783,6 @@ def plot_efficient_frontier_complete(
             y=0.99,
             xanchor="left",
             x=0.01,
-            bgcolor="rgba(255,255,255,0.8)",
         ),
     )
 
@@ -780,6 +862,95 @@ def plot_returns_distribution(returns):
         template="plotly_white",
         height=400,
         barmode="overlay",
+    )
+
+    return fig
+
+
+def plot_weights_allocations(portfolios_dict):
+    """Plot portfolio allocations as stacked bar chart"""
+    if not portfolios_dict:
+        return go.Figure()
+
+    data = []
+    for name, w in portfolios_dict.items():
+        if w is None:
+            continue
+        data.append({"Portfolio": name, **{k: v * 100 for k, v in w.items()}})
+
+    if not data:
+        return go.Figure()
+
+    df = pd.DataFrame(data)
+    assets = [col for col in df.columns if col != "Portfolio"]
+
+    fig = go.Figure()
+    for asset in assets:
+        fig.add_trace(
+            go.Bar(
+                name=asset,
+                y=df["Portfolio"],
+                x=df[asset],
+                orientation="h",
+                text=df[asset].apply(lambda x: f"{x:.1f}%" if x > 2 else ""),
+                textposition="inside",
+            )
+        )
+
+    fig.update_layout(
+        barmode="stack",
+        title="Portfolio Allocations (%)",
+        xaxis_title="Weight (%)",
+        yaxis_title="Portfolio",
+        template="plotly_white",
+        height=400,
+        showlegend=True,
+        legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5),
+    )
+
+    return fig
+
+
+def plot_risk_contributions(portfolios_dict, cov):
+    """Plot risk contributions for each portfolio"""
+    if not portfolios_dict:
+        return go.Figure()
+
+    data = []
+    for name, w in portfolios_dict.items():
+        if w is None:
+            continue
+        _, _, pct_contrib = calculate_risk_contributions(w, cov)
+        data.append({"Portfolio": name, **{k: v for k, v in pct_contrib.items()}})
+
+    if not data:
+        return go.Figure()
+
+    df = pd.DataFrame(data)
+    assets = [col for col in df.columns if col != "Portfolio"]
+
+    fig = go.Figure()
+    for asset in assets:
+        fig.add_trace(
+            go.Bar(
+                name=asset,
+                y=df["Portfolio"],
+                x=df[asset],
+                orientation="h",
+                text=df[asset].apply(lambda x: f"{x:.1f}%" if abs(x) > 2 else ""),
+                textposition="inside",
+            )
+        )
+
+    fig.update_layout(
+        barmode="stack",
+        title="Risk Contributions by Asset (%)",
+        xaxis_title="Risk Contribution (%)",
+        yaxis_title="Portfolio",
+        template="plotly_white",
+        height=400,
+        showlegend=True,
+        legend=dict(orientation="h", yanchor="bottom", y=-0.3, xanchor="center", x=0.5),
     )
 
     return fig
@@ -1029,12 +1200,17 @@ if st.session_state.run_analysis:
                 ret, vol, sharpe = portfolio_performance(
                     weights, mu_for_frontier, cov, risk_free_rate
                 )
+                var, cvar = calculate_var_cvar(
+                    returns, weights, confidence_level=0.95, method="historical"
+                )
                 stats.append(
                     {
                         "Portfolio": name,
                         "Return (%)": f"{ret*100:.2f}",
                         "Volatility (%)": f"{vol*100:.2f}",
                         "Sharpe Ratio": f"{sharpe:.2f}",
+                        "VaR 95% (%)": f"{var*100:.2f}",
+                        "CVaR 95% (%)": f"{cvar*100:.2f}",
                     }
                 )
 
@@ -1073,35 +1249,93 @@ if st.session_state.run_analysis:
         st.dataframe(stats_df, hide_index=True, use_container_width=True)
 
     with tab3:
-        st.header("Portfolio Allocations")
+        st.header("Portfolio Allocations & Risk Analysis")
+
+        # Portfolio Allocations
+        st.subheader("💼 Weight Allocations")
+        fig_alloc_bar = plot_weights_allocations(portfolios)
+        st.plotly_chart(fig_alloc_bar, use_container_width=True)
 
         allocation_data = {}
         for name, weights in portfolios.items():
             if weights is not None:
                 allocation_data[name] = weights.values * 100
 
-        if allocation_data:
-            df_alloc = pd.DataFrame(
-                allocation_data, index=list(portfolios.values())[0].index
+        # Risk Contributions
+        st.subheader("⚠️ Risk Contributions by Asset")
+        st.markdown(
+            """
+        Risk contribution shows how much each asset contributes to the total portfolio risk.
+        Unlike weight allocation, this reveals which assets are driving portfolio volatility.
+        """
+        )
+
+        fig_risk_contrib = plot_risk_contributions(portfolios, cov)
+        st.plotly_chart(fig_risk_contrib, use_container_width=True)
+
+        # Detailed risk contribution table
+        risk_contrib_data = {}
+        for name, weights in portfolios.items():
+            if weights is not None:
+                _, _, pct_contrib = calculate_risk_contributions(weights, cov)
+                risk_contrib_data[name] = pct_contrib.values
+
+        if risk_contrib_data:
+            df_risk_contrib = pd.DataFrame(
+                risk_contrib_data, index=list(portfolios.values())[0].index
+            )
+            st.subheader("📊 Detailed Risk Contributions (%)")
+            st.dataframe(
+                df_risk_contrib.style.format("{:.2f}%"), use_container_width=True
             )
 
-            fig_alloc = go.Figure()
-            for col in df_alloc.columns:
-                fig_alloc.add_trace(go.Bar(x=df_alloc.index, y=df_alloc[col], name=col))
+        # VaR and CVaR Analysis
+        st.subheader("📉 Value at Risk (VaR) & Conditional VaR (CVaR)")
+        st.markdown(
+            """
+        - **VaR (95%)**: Maximum expected loss in 95% of scenarios (annualized)
+        - **CVaR (95%)**: Expected loss when VaR threshold is exceeded (tail risk)
+        """
+        )
 
-            fig_alloc.update_layout(
-                title="Portfolio Weights (%)",
-                xaxis_title="Assets",
-                yaxis_title="Weight (%)",
-                barmode="group",
-                height=500,
-                template="plotly_white",
+        col1, col2 = st.columns(2)
+        with col1:
+            confidence_level = st.slider("Confidence Level", 0.90, 0.99, 0.95, 0.01)
+        with col2:
+            var_method = st.selectbox("Method", ["historical", "parametric"])
+
+        var_stats = []
+        for name, weights in portfolios.items():
+            if weights is not None:
+                var, cvar = calculate_var_cvar(
+                    returns, weights, confidence_level, var_method
+                )
+                ret, vol, sharpe = portfolio_performance(
+                    weights, mu_for_frontier, cov, risk_free_rate
+                )
+                var_stats.append(
+                    {
+                        "Portfolio": name,
+                        "Return (%)": f"{ret*100:.2f}",
+                        "Volatility (%)": f"{vol*100:.2f}",
+                        f"VaR {int(confidence_level*100)}% (%)": f"{var*100:.2f}",
+                        f"CVaR {int(confidence_level*100)}% (%)": f"{cvar*100:.2f}",
+                        "CVaR/VaR Ratio": f"{(cvar/var) if var > 0 else 0:.2f}",
+                    }
+                )
+
+        if var_stats:
+            df_var = pd.DataFrame(var_stats)
+            st.dataframe(df_var, hide_index=True, use_container_width=True)
+
+            st.info(
+                f"""
+            **Interpretation:**
+            - With {int(confidence_level*100)}% confidence, losses will not exceed VaR
+            - CVaR shows the average loss in the worst {int((1-confidence_level)*100)}% of cases
+            - Higher CVaR/VaR ratio indicates fatter tails (more extreme risk)
+            """
             )
-
-            st.plotly_chart(fig_alloc, use_container_width=True)
-
-            st.subheader("Detailed Allocations")
-            st.dataframe(df_alloc.style.format("{:.2f}%"), use_container_width=True)
 
     with tab4:
         st.header("Out-of-Sample Backtest")

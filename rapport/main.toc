@@ -29,7 +29,7 @@
 \contentsline {subsection}{\numberline {3.2.2}Solution Analytique (Sans Contraintes de Positivité)}{15}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Frontière Efficiente}{16}{subsection.3.2.3}%
 \contentsline {subsection}{\numberline {3.2.4}Sensibilité aux Erreurs d'Estimation}{16}{subsection.3.2.4}%
-\contentsline {subsubsection}{Shrinkage de la Matrice de Covariance}{16}{section*.14}%
+\contentsline {subsubsection}{Shrinkage de la Matrice de Covariance}{16}{section*.13}%
 \contentsline {chapter}{\numberline {4}Portefeuille Tangent et Maximisation du Sharpe}{17}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Problème d'Optimisation}{17}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Formulation}{17}{subsection.4.1.1}%
@@ -58,4 +58,4 @@
 \contentsline {section}{\numberline {6.5}Performance Historique}{27}{section.6.5}%
 \contentsline {section}{\numberline {6.6}Analyse du Risque}{28}{section.6.6}%
 \contentsline {section}{\numberline {6.7}Recommandations Pratiques}{30}{section.6.7}%
-\contentsline {chapter}{Conclusion et Perspectives}{31}{chapter*.37}%
+\contentsline {chapter}{Conclusion et Perspectives}{31}{chapter*.36}%
