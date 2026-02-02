@@ -1,21 +1,17 @@
 \babel@toc {french}{}\relax 
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Réduction du risque par la diversification : distinction entre risque spécifique et risque systématique.}}{9}{figure.caption.8}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Allocation Equal-Weighted pour 6 actifs}}{11}{figure.caption.9}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Comparaison des allocations EWP et IVP}}{12}{figure.caption.10}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Position du GMVP sur la frontière efficiente}}{15}{figure.caption.11}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Frontière efficiente de Markowitz}}{16}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Frontière efficiente avec simulations Monte Carlo}}{18}{figure.caption.9}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Portefeuille tangent et ligne de marché des capitaux}}{19}{figure.caption.14}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Portefeuille tangent et ligne de marché des capitaux}}{24}{figure.caption.10}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Comparaison MDP et Max Sharpe}}{21}{figure.caption.15}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Allocation et contribution au risque du portefeuille Risk Parity}}{24}{figure.caption.16}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Allocation du capital vs Contribution au risque (Risk Parity)}}{30}{figure.caption.11}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Interface de l'application}}{26}{figure.caption.19}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Frontière efficiente : Optimisation vs Monte Carlo}}{26}{figure.caption.20}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Comparaison des allocations pour les 7 méthodes}}{27}{figure.caption.21}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Performance historique (backtest) des 7 méthodes}}{27}{figure.caption.23}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Allocation du capital vs Contribution au risque (Max Sharpe)}}{28}{figure.caption.28}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Allocation du capital vs Contribution au risque (Risk Parity)}}{29}{figure.caption.29}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Distribution des rendements quotidiens avec VaR}}{29}{figure.caption.33}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Frontière efficiente étendue avec simulations Monte Carlo}}{38}{figure.caption.14}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Allocations optimales pour les cinq méthodes}}{39}{figure.caption.15}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Allocation du capital vs Contribution au risque (Max Sharpe)}}{40}{figure.caption.16}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Allocation du capital vs Contribution au risque (Risk Parity)}}{40}{figure.caption.17}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Performance historique out-of-sample (backtest)}}{41}{figure.caption.19}%

@@ -389,68 +389,120 @@ def calculate_var_cvar(returns, weights, confidence_level=0.95, method="historic
 
 
 def compute_efficient_frontier_extended(
-    mu, cov, min_weight=0.0, max_weight=1.0, n_points=200
+    mu, cov, min_weight=0.0, max_weight=1.0, n_points=300
 ):
     """
-    Compute EXTENDED efficient frontier covering MUCH wider range
-    This creates a more complete frontier line
+    Extended efficient frontier - covers full feasible range from true minimum variance
+    to maximum return, with smart sampling
     """
     n = len(mu)
 
-    # Find minimum variance portfolio
-    min_var_weights = optimize_minimum_variance(cov, min_weight, max_weight)
-    if min_var_weights is None:
+    # ---- Find TRUE minimum variance with tighter solver settings ----
+    w_min = cp.Variable(n)
+
+    problem_min = cp.Problem(
+        cp.Minimize(cp.quad_form(w_min, cov.values)),
+        [
+            cp.sum(w_min) == 1,
+            w_min >= min_weight,
+            w_min <= max_weight,
+        ],
+    )
+
+    try:
+        problem_min.solve(solver=cp.OSQP, verbose=False, eps_abs=1e-9, eps_rel=1e-9)
+        if w_min.value is None or problem_min.status not in [
+            "optimal",
+            "optimal_inaccurate",
+        ]:
+            problem_min.solve(solver=cp.SCS, verbose=False, eps=1e-9)
+    except:
+        problem_min.solve(solver=cp.SCS, verbose=False, eps=1e-9)
+
+    if w_min.value is None:
         return np.array([]), np.array([])
 
-    min_ret, min_vol, _ = portfolio_performance(min_var_weights, mu, cov)
+    w_min_opt = np.maximum(w_min.value, 0).flatten()
+    w_min_opt /= w_min_opt.sum()
 
-    # Maximum feasible return - EXTENDED
-    max_single_ret = mu.max()
-    max_feasible_ret = max_single_ret * max_weight + mu.sort_values(
-        ascending=False
-    ).iloc[1:].mean() * (1 - max_weight)
+    min_ret = float(mu.values @ w_min_opt)
+    min_vol = float(np.sqrt(w_min_opt @ cov.values @ w_min_opt))
 
-    # EXTENDED RANGE: Cover from 80% of min to 150% of max
-    target_returns = np.linspace(min_ret * 0.8, max_feasible_ret * 1.5, n_points)
+    # ---- Find maximum feasible return ----
+    # Maximum return is when we put max_weight on highest return asset
+    max_single_asset_ret = float(mu.max())
+    # Conservative estimate: max_weight on best asset + remaining on second best
+    mu_sorted = np.sort(mu.values)[::-1]
+    max_ret = (
+        max_weight * mu_sorted[0] + (1 - max_weight) * mu_sorted[1]
+        if len(mu_sorted) > 1
+        else max_single_asset_ret
+    )
 
-    frontier_vols = []
-    frontier_rets = []
+    # Extend max return for visualization (up to 2.5x)
+    max_ret_extended = max_ret * 2.5
 
-    for target_ret in target_returns:
+    # ---- Smart sampling: denser near minimum, sparser at high returns ----
+    # Use logarithmic spacing for better coverage
+    n_dense = int(n_points * 0.6)  # 60% of points in lower range
+    n_sparse = n_points - n_dense  # 40% of points in upper range
+
+    midpoint = min_ret + (max_ret - min_ret) * 0.7
+
+    targets_dense = np.linspace(
+        min_ret * 0.98, midpoint, n_dense
+    )  # Start slightly below min
+    targets_sparse = np.linspace(midpoint, max_ret_extended, n_sparse)
+    target_returns = np.concatenate(
+        [targets_dense, targets_sparse[1:]]
+    )  # Remove duplicate midpoint
+
+    vols, rets = [], []
+
+    # Add the minimum variance point first
+    vols.append(min_vol)
+    rets.append(min_ret)
+
+    for tr in target_returns[1:]:  # Skip first since we already added min variance
         w = cp.Variable(n)
 
-        risk = cp.quad_form(w, cov.values)
-        objective = cp.Minimize(risk)
-
-        constraints = [
-            cp.sum(w) == 1,
-            mu.values @ w >= target_ret,
-            w >= min_weight,
-            w <= max_weight,
-        ]
-
-        problem = cp.Problem(objective, constraints)
+        problem = cp.Problem(
+            cp.Minimize(cp.quad_form(w, cov.values)),
+            [
+                cp.sum(w) == 1,
+                mu.values @ w >= tr,
+                w >= min_weight,
+                w <= max_weight,
+            ],
+        )
 
         try:
-            problem.solve(solver=cp.OSQP, verbose=False, max_iter=15000)
-            if problem.status not in ["optimal", "optimal_inaccurate"]:
-                problem.solve(solver=cp.SCS, verbose=False, max_iters=15000)
+            problem.solve(solver=cp.OSQP, verbose=False, eps_abs=1e-8, eps_rel=1e-8)
+            if w.value is None or problem.status not in [
+                "optimal",
+                "optimal_inaccurate",
+            ]:
+                problem.solve(solver=cp.SCS, verbose=False, eps=1e-8)
         except:
             continue
 
-        if w.value is not None and problem.status in ["optimal", "optimal_inaccurate"]:
-            weights_opt = np.array(w.value).flatten()
-            weights_opt = np.maximum(weights_opt, 0)
-            if weights_opt.sum() > 0:
-                weights_opt = weights_opt / weights_opt.sum()
+        if w.value is None or problem.status not in ["optimal", "optimal_inaccurate"]:
+            continue
 
-                port_ret = float(mu.values @ weights_opt)
-                port_vol = float(np.sqrt(weights_opt @ cov.values @ weights_opt))
+        w_opt = np.maximum(w.value, 0).flatten()
+        w_opt /= w_opt.sum()
 
-                frontier_rets.append(port_ret)
-                frontier_vols.append(port_vol)
+        ret = float(mu.values @ w_opt)
+        vol = float(np.sqrt(w_opt @ cov.values @ w_opt))
 
-    return np.array(frontier_vols), np.array(frontier_rets)
+        # Only add if it extends the frontier (monotonically increasing risk)
+        if (
+            len(vols) == 0 or vol >= vols[-1] * 0.999
+        ):  # Allow tiny decreases due to numerical errors
+            vols.append(vol)
+            rets.append(ret)
+
+    return np.array(vols), np.array(rets)
 
 
 def generate_diverse_random_portfolios(mu, cov, n_portfolios=15000):
@@ -691,15 +743,12 @@ def plot_efficient_frontier_complete(
             max_sharpe_portfolio, mu, cov, rf
         )
 
-        # Extend CML line further
-        max_vol_plot = (
-            max(
-                frontier_vols.max() if len(frontier_vols) > 0 else vol_sharpe,
-                random_vols.max() if len(random_vols) > 0 else vol_sharpe,
-                vol_sharpe,
-            )
-            * 1.2
-        )
+        # Extend CML line to cover frontier range (not random portfolios)
+        # CML should extend beyond the efficient frontier, not to extreme Monte Carlo points
+        if len(frontier_vols) > 0:
+            max_vol_plot = frontier_vols.max() * 1.3
+        else:
+            max_vol_plot = vol_sharpe * 2.0
 
         cml_vols = np.linspace(0, max_vol_plot, 100)
         cml_rets = rf + sharpe_ratio * cml_vols
@@ -1027,7 +1076,7 @@ with st.sidebar.expander("🔧 Optimization Parameters"):
     global_min_weight = st.slider("Min Weight (%)", 0, 20, 0) / 100
     global_max_weight = st.slider("Max Weight (%)", 10, 100, 40) / 100
     risk_aversion = st.slider("Risk Aversion λ", 0.5, 10.0, 2.5, 0.5)
-    risk_free_rate = st.number_input("Risk-Free Rate (%)", value=2.75, step=0.25) / 100
+    risk_free_rate = st.number_input("Risk-Free Rate (%)", value=1.0, step=0.25) / 100
 
 bl_views = {}
 if enable_bl:
